@@ -23,7 +23,7 @@ public class AlreadyReadBookActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter.setBooks(Utils.getAlreadyReadBooks());
+        adapter.setBooks(Utils.getInstance(this).getAlreadyReadBooks());
     }
 
     // navigate the user to the main page when he back presses after adding to AlreadyRead List

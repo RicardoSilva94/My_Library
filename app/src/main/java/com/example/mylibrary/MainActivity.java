@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //calling the constructor of the Utils class and initializing the lists
-        Utils.getInstance();
+        Utils.getInstance(this);
 
     }
     private void initViews(){

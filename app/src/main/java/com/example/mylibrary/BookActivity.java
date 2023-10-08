@@ -43,7 +43,7 @@ import java.util.ArrayList;
         if (null!= intent){
             int bookId = intent.getIntExtra(BOOK_ID_KEY, -1);
             if (bookId != -1 ){
-                Book incomingBook = Utils.getInstance().getBookById(bookId);
+                Book incomingBook = Utils.getInstance(this).getBookById(bookId);
                 if (null != incomingBook){
                     setData(incomingBook);
 
@@ -60,7 +60,7 @@ import java.util.ArrayList;
 
     private void handleCurrentlyReadingBooks (final Book book){
 
-        ArrayList<Book> currentlyReadingBooks = Utils.getInstance().getCurrentlyReadingBooks();
+        ArrayList<Book> currentlyReadingBooks = Utils.getInstance(this).getCurrentlyReadingBooks();
 
         boolean existInCurrentlyReadingBooks = false;
 
@@ -75,7 +75,7 @@ import java.util.ArrayList;
             btnAddToCurrentlyReading.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(Utils.getInstance().addToCurrentlyReading(book)){
+                    if(Utils.getInstance(BookActivity.this).addToCurrentlyReading(book)){
                         Toast.makeText(BookActivity.this, "Book Added", Toast.LENGTH_SHORT).show();
 
 
@@ -92,7 +92,7 @@ import java.util.ArrayList;
     }
 
      private void handleFavoriteBooks(final Book book){
-         ArrayList<Book> favoriteBooks = Utils.getInstance().getFavoriteBooks();
+         ArrayList<Book> favoriteBooks = Utils.getInstance(this).getFavoriteBooks();
 
          boolean existInFavoriteBooks = false;
 
@@ -107,7 +107,7 @@ import java.util.ArrayList;
              btnAddToFavorite.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
-                     if(Utils.getInstance().addToFavorite(book)){
+                     if(Utils.getInstance(BookActivity.this).addToFavorite(book)){
                          Toast.makeText(BookActivity.this, "Book Added", Toast.LENGTH_SHORT).show();
 
 
@@ -124,7 +124,7 @@ import java.util.ArrayList;
 
     private void handleWantToReadBooks (final Book book){
 
-        ArrayList<Book> wantToReadBooks = Utils.getInstance().getWantToReadBooks();
+        ArrayList<Book> wantToReadBooks = Utils.getInstance(this).getWantToReadBooks();
 
         boolean existInWantToReadBooks = false;
 
@@ -139,7 +139,7 @@ import java.util.ArrayList;
             btnAddToWantToRead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(Utils.getInstance().addToWantToRead(book)){
+                    if(Utils.getInstance(BookActivity.this).addToWantToRead(book)){
                         Toast.makeText(BookActivity.this, "Book Added", Toast.LENGTH_SHORT).show();
 
 
@@ -163,7 +163,7 @@ import java.util.ArrayList;
     */
 
     private void handleAlreadyRead(Book book){
-        ArrayList<Book> alreadyReadBooks = Utils.getInstance().getAlreadyReadBooks();
+        ArrayList<Book> alreadyReadBooks = Utils.getInstance(this).getAlreadyReadBooks();
 
         boolean existInAlreadyReadBooks = false;
 
@@ -178,7 +178,7 @@ import java.util.ArrayList;
             btnAddToAlreadyRead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(Utils.getInstance().addToAlreadyRead(book)){
+                    if(Utils.getInstance(BookActivity.this).addToAlreadyRead(book)){
                         Toast.makeText(BookActivity.this, "Book Added", Toast.LENGTH_SHORT).show();
 
 
