@@ -13,27 +13,35 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
-
 import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
 public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.ViewHolder> {
     private static final String TAG = "BookRecViewAdapter";
 
-    private ArrayList <Book> books = new ArrayList<>();
+    private ArrayList<Book> books = new ArrayList<>();
     private Context mContext;
     private String parentActivity;
+    private OnItemClickListener mListener;
+
+    public static final String BOOK_ID_KEY = "bookId";
 
     public BookRecViewAdapter(Context mContext, String parentActivity) {
         this.mContext = mContext;
         this.parentActivity = parentActivity;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
     }
 
     @NonNull
@@ -45,6 +53,26 @@ public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if (position == RecyclerView.NO_POSITION) {
+            return;
+        }
+
+        holder.txtName.setText(books.get(position).getName());
+        Glide.with(mContext)
+                .asBitmap()
+                .load(books.get(position).getImageUrl())
+                .into(holder.imgBook);
+
+        holder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onItemClick(position);
+                }
+            }
+        });
+
+
         Log.d(TAG, "onBindViewHolder: Called");
 
         if (position == RecyclerView.NO_POSITION) {
@@ -234,6 +262,17 @@ public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.
 
             btnDelete = itemView.findViewById(R.id.btnDelete);
 
+            parent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Clique no item do RecyclerView
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && mListener != null) {
+                        mListener.onItemClick(position);
+                    }
+                }
+            });
+
             downArrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -251,9 +290,10 @@ public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.
                     notifyItemChanged(getAdapterPosition());
                 }
             });
-
-
         }
     }
 
+    public Book getBookAt(int position) {
+        return books.get(position);
+    }
 }

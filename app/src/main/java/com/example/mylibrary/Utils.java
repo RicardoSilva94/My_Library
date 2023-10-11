@@ -2,6 +2,7 @@ package com.example.mylibrary;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -11,6 +12,18 @@ import java.util.ArrayList;
 
 public class Utils {
 
+    private int generateUniqueId() {
+        ArrayList<Book> allBooks = getAllBooks();
+        if (allBooks != null) {
+            // Gere um ID único com base no tamanho atual da lista de livros
+            // O tamanho atual da lista representa o último ID atribuído
+            return allBooks.size() + 1;
+        } else {
+            // Se a lista não existir (por exemplo, na primeira execução), começa com o ID 1
+            return 1;
+        }
+    }
+
     private static final String ALL_BOOKS_KEY = "all books";
     private static final String ALREADY_READ_BOOKS = "already_read_books";
     private static final String WANT_TO_READ_BOOKS = "want_to_read_books";
@@ -19,6 +32,16 @@ public class Utils {
 
     private static Utils instance;
     private SharedPreferences sharedPreferences;
+
+    private int lastBookId = 0;
+
+    private int lastAssignedBookId = 0;
+
+    public int generateBookId() {
+        // Gere um novo ID incrementando o último ID atribuído
+        lastAssignedBookId++;
+        return lastAssignedBookId;
+    }
 
 
 //    private static ArrayList<Book> allBooks;
@@ -64,12 +87,13 @@ public class Utils {
         ArrayList<Book> books = new ArrayList<>();
 
 
-        books.add(new Book(1, "1984", "George Orwell", 450, "https://leyaonline.com/fotos/produtos/500_9789722071550_1984_george_orwell.jpg",
-                "A dystopian society", "Long description"));
+//        books.add(new Book("1984", "George Orwell", 450, "https://leyaonline.com/fotos/produtos/500_9789722071550_1984_george_orwell.jpg",
+//                "A dystopian society", "Long description"));
 
 
-        books.add(new Book(2, "The Silmarillion", "J.R.R.Tolkien", 350, "https://cdn.kobo.com/book-images/628e877c-6a1e-46ce-bb5e-6a4f12877773/1200/1200/False/the-silmarillion.jpg",
-                "It describes the beginning of times, before the events of the Lord of the Rings", "Long description"));
+  //      books.add(new Book("The Silmarillion", "J.R.R.Tolkien", 350, "https://cdn.kobo.com/book-images/628e877c-6a1e-46ce-bb5e-6a4f12877773/1200/1200/False/the-silmarillion.jpg",
+    //            "It describes the beginning of times, before the events of the Lord of the Rings", "Long description"));
+
 
         // Serializing the books object, converting the Arraylist into a JSON File
 
@@ -77,6 +101,7 @@ public class Utils {
         Gson gson = new Gson();
         editor.putString(ALL_BOOKS_KEY, gson.toJson(books));
         editor.commit();
+
     }
 
     public static Utils getInstance(Context context) {
@@ -282,6 +307,25 @@ public class Utils {
             }
         }
         return false;
+    }
+
+    public void addToAllBooks(Book newBook) {
+        ArrayList<Book> allBooks = getAllBooks();
+        if (allBooks != null) {
+            // Gere um novo ID para o livro e atribui-o ao livro
+            int newId = generateBookId(); // Usa o método generateBookId para obter um ID único
+            newBook.setId(newId); // Define o ID do novo livro
+
+            // Adiciona o novo livro à lista
+            allBooks.add(newBook);
+
+            // Atualiza a lista de todos os livros no SharedPreferences
+            Gson gson = new Gson();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove(ALL_BOOKS_KEY);
+            editor.putString(ALL_BOOKS_KEY, gson.toJson(allBooks));
+            editor.apply();
+        }
     }
 }
 

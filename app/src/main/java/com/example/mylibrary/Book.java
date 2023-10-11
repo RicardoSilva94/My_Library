@@ -10,8 +10,8 @@ public class Book {
     private String longDesc;
     private boolean isExpanded;
 
-    public Book(int id, String name, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
-        this.id = id;
+    public Book(String name, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
+
         this.name = name;
         this.author = author;
         this.pages = pages;
@@ -33,7 +33,7 @@ public class Book {
         return id;
     }
 
-    public void setId(int id) {
+     public void setId(int id) {
         this.id = id;
     }
 
@@ -97,4 +97,5 @@ public class Book {
                 ", longDesc='" + longDesc + '\'' +
                 '}';
     }
+
 }

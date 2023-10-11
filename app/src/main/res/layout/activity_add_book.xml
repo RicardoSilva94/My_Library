@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".AddBookActivity">
+
+    <EditText
+        android:id="@+id/edtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Book Title" />
+
+    <EditText
+        android:id="@+id/edtAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Book Author" />
+
+    <EditText
+        android:id="@+id/edtPages"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Pages"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/edtDescription"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Short Description" />
+
+    <EditText
+        android:id="@+id/edtLongDescription"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Long Description" />
+
+    <EditText
+        android:id="@+id/edtImageUrl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Book image URL" />
+
+    <Button
+        android:id="@+id/btnSaveBook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Book"
+        android:layout_gravity="right"/>
+
+</LinearLayout>

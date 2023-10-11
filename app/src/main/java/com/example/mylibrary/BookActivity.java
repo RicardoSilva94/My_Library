@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -39,20 +40,23 @@ import java.util.ArrayList;
    //            "A dystopian society", longDescription);
 
         Intent intent = getIntent();
-
-        if (null!= intent){
-            int bookId = intent.getIntExtra(BOOK_ID_KEY, -1);
-            if (bookId != -1 ){
+        if (intent != null) {
+            int bookId = intent.getIntExtra(BookActivity.BOOK_ID_KEY, -1);
+           // Log.d("BookActivity", "Received bookId: " + bookId); // log para verificar o bookId
+            if (bookId != -1) {
+                // Prossegue com a busca do livro no Utils
                 Book incomingBook = Utils.getInstance(this).getBookById(bookId);
-                if (null != incomingBook){
+                if (incomingBook != null) {
+                   //  Log.d("BookActivity", "Found book: " + incomingBook.getName()); // log para verificar o livro encontrado
+                    // Define os dados do livro e manipula os botões aqui
                     setData(incomingBook);
-
                     handleAlreadyRead(incomingBook);
                     handleWantToReadBooks(incomingBook);
                     handleCurrentlyReadingBooks(incomingBook);
                     handleFavoriteBooks(incomingBook);
+                } else{
+                    Log.e("BookActivity", "Book not found for bookId: " + bookId); // log de erro se o livro não for encontrado
                 }
-
             }
         }
 
