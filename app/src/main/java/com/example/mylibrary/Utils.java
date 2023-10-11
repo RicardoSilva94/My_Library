@@ -30,6 +30,8 @@ public class Utils {
     private static final String CURRENTLY_READING_BOOKS = "currently_reading_books";
     private static final String FAVORITE_BOOKS = "favorite_books";
 
+    private static final String ALLBOOKS = "all_books";
+
     private static Utils instance;
     private SharedPreferences sharedPreferences;
 
@@ -231,6 +233,31 @@ public class Utils {
         }
         return false;
     }
+
+    public boolean removeFromAllBooks(Book book) {
+        ArrayList<Book> books = getAllBooks();
+        if (null != books) {
+            // Crie uma nova lista para armazenar os livros a serem mantidos
+            ArrayList<Book> updatedBooks = new ArrayList<>();
+
+            for (Book b : books) {
+                if (b.getId() != book.getId()) {
+                    // Adicione os livros que não correspondem ao livro que você deseja remover
+                    updatedBooks.add(b);
+                }
+            }
+
+            // Atualize a lista de todos os livros no SharedPreferences
+            Gson gson = new Gson();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(ALL_BOOKS_KEY, gson.toJson(updatedBooks));
+            editor.apply();
+
+            return true;
+        }
+        return false;
+    }
+
 
     public boolean removeFromAlreadyRead(Book book) {
         ArrayList<Book> books = getAlreadyReadBooks();
