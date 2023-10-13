@@ -8,8 +8,9 @@ public class Book {
     private String imageUrl;
     private String shortDesc;
     private String longDesc;
-    private boolean isExpanded;
+    private boolean isExpanded; // Flag to track whether the book's details are expanded
 
+    // Constructor to create a new Book object with provided information
     public Book(String name, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
 
         this.name = name;
@@ -18,9 +19,10 @@ public class Book {
         this.imageUrl = imageUrl;
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
-        isExpanded = false;
+        isExpanded = false;  // By default, book details are not expanded
     }
 
+    // Getters and setters for class members
     public boolean isExpanded() {
         return isExpanded;
     }
@@ -85,6 +87,7 @@ public class Book {
         this.longDesc = longDesc;
     }
 
+    // A custom toString() method for debugging and printing the Book object
     @Override
     public String toString() {
         return "Book{" +
@@ -99,3 +102,6 @@ public class Book {
     }
 
 }
+
+//This Book class represents a data structure for storing information about books, including their properties such as title, author, page count, and descriptions.
+// It also includes methods to get and set these properties, as well as a toString() method for converting a Book object into a string representation for debugging purposes.

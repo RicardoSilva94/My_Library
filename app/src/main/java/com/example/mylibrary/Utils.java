@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 public class Utils {
 
+    // Generate a unique ID for a book based on the current list of books
+    // The current list's size represents the last assigned ID
     private int generateUniqueId() {
         ArrayList<Book> allBooks = getAllBooks();
         if (allBooks != null) {
@@ -57,6 +59,7 @@ public class Utils {
         sharedPreferences = context.getSharedPreferences("alternate_db", Context.MODE_PRIVATE);
 
 
+        // Initialize data for various book lists (already read, want to read, etc.)
         if (null == getAllBooks()) {
             initData();
         }
@@ -84,7 +87,7 @@ public class Utils {
     }
 
     private void initData() {
-        //TODO add initial data
+        // Add initial book data (if needed)
 
         ArrayList<Book> books = new ArrayList<>();
 
@@ -105,7 +108,8 @@ public class Utils {
         editor.commit();
 
     }
-
+    // Create a single instance of the Utils class to manage data
+    //Singleton Pattern
     public static Utils getInstance(Context context) {
         if (null != instance) {
             return instance;
@@ -114,6 +118,8 @@ public class Utils {
             return instance;
         }
     }
+
+    // Methods for retrieving lists of books from SharedPreferences
 
     public ArrayList<Book> getAllBooks() {
         Gson gson = new Gson();
@@ -156,6 +162,8 @@ public class Utils {
         return books;
     }
 
+    // Get a book by its unique ID
+
     public Book getBookById(int id) {
         ArrayList<Book> books = getAllBooks();
         if (null != books) {
@@ -170,6 +178,7 @@ public class Utils {
         return null;
     }
 
+    // Methods for adding books to various lists (already read, want to read, etc.)
     public boolean addToAlreadyRead(Book book) {
         ArrayList<Book> books = getAlreadyReadBooks();
         if (null != books) {
@@ -234,6 +243,7 @@ public class Utils {
         return false;
     }
 
+    // Remove a book from the list of all books
     public boolean removeFromAllBooks(Book book) {
         ArrayList<Book> books = getAllBooks();
         if (null != books) {
@@ -357,3 +367,5 @@ public class Utils {
 }
 
 
+//This Utils class is used to manage data related to books and their various categories (e.g., already read, want to read).
+//It includes methods for adding, removing, and retrieving books from shared preferences and generating unique book IDs.

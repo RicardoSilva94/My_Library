@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
  public class BookActivity extends AppCompatActivity {
 
-     public static final String BOOK_ID_KEY = "bookId";
+     public static final String BOOK_ID_KEY = "bookId"; // A constant key for passing book IDs between activities
 
     private TextView txtBookName, txtAuthor, txtPages, txtDescription;
     private Button btnAddToWantToRead, btnAddToAlreadyRead, btnAddToCurrentlyReading, btnAddToFavorite;
@@ -28,26 +28,23 @@ import java.util.ArrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book);
+        setContentView(R.layout.activity_book); // Set the layout for this activity
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Enable the back button in the action bar
 
-        initViews();
+        initViews(); // Initialize UI components
 
-        // String longDescription = "The book is set in 1984 in Oceania, one of three perpetually warring totalitarian states (the other two are Eurasia and Eastasia). Oceania is governed by the all-controlling Party, which has brainwashed the population into unthinking obedience to its leader, Big Brother.";
 
-      // Book book = new Book(1, "1984", "George Orwell", 450, "https://leyaonline.com/fotos/produtos/500_9789722071550_1984_george_orwell.jpg",
-   //            "A dystopian society", longDescription);
-
-        Intent intent = getIntent();
+        Intent intent = getIntent(); // Get the intent that started this activity
         if (intent != null) {
             int bookId = intent.getIntExtra(BookActivity.BOOK_ID_KEY, -1);
            // Log.d("BookActivity", "Received bookId: " + bookId); // log para verificar o bookId
-            if (bookId != -1) {
+            if (bookId != -1) { // Check if a valid book ID is received
+                // Retrieve the book using the book ID from shared preferences
                 // Prossegue com a busca do livro no Utils
                 Book incomingBook = Utils.getInstance(this).getBookById(bookId);
                 if (incomingBook != null) {
-                   //  Log.d("BookActivity", "Found book: " + incomingBook.getName()); // log para verificar o livro encontrado
+                    //  Log.d("BookActivity", "Found book: " + incomingBook.getName()); // log para verificar o livro encontrado
                     // Define os dados do livro e manipula os botões aqui
                     setData(incomingBook);
                     handleAlreadyRead(incomingBook);
@@ -63,6 +60,7 @@ import java.util.ArrayList;
     }
 
     private void handleCurrentlyReadingBooks (final Book book){
+        // Retrieve the list of currently reading books
 
         ArrayList<Book> currentlyReadingBooks = Utils.getInstance(this).getCurrentlyReadingBooks();
 
@@ -79,6 +77,7 @@ import java.util.ArrayList;
             btnAddToCurrentlyReading.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // Display a message and navigate to the "Currently Reading" activity
                     if(Utils.getInstance(BookActivity.this).addToCurrentlyReading(book)){
                         Toast.makeText(BookActivity.this, "Book Added", Toast.LENGTH_SHORT).show();
 
@@ -96,6 +95,7 @@ import java.util.ArrayList;
     }
 
      private void handleFavoriteBooks(final Book book){
+         // Retrieve the list of favorite books
          ArrayList<Book> favoriteBooks = Utils.getInstance(this).getFavoriteBooks();
 
          boolean existInFavoriteBooks = false;
@@ -112,9 +112,8 @@ import java.util.ArrayList;
                  @Override
                  public void onClick(View v) {
                      if(Utils.getInstance(BookActivity.this).addToFavorite(book)){
+                         // Display a message and navigate to the "Favorite" activity
                          Toast.makeText(BookActivity.this, "Book Added", Toast.LENGTH_SHORT).show();
-
-
                          Intent intent = new Intent(BookActivity.this, FavoriteActivity.class);
                          startActivity(intent);
 
@@ -127,7 +126,7 @@ import java.util.ArrayList;
      }
 
     private void handleWantToReadBooks (final Book book){
-
+        // Retrieve the list of "Want to Read" books
         ArrayList<Book> wantToReadBooks = Utils.getInstance(this).getWantToReadBooks();
 
         boolean existInWantToReadBooks = false;
@@ -144,9 +143,8 @@ import java.util.ArrayList;
                 @Override
                 public void onClick(View v) {
                     if(Utils.getInstance(BookActivity.this).addToWantToRead(book)){
+                        // Display a message and navigate to the "Want to Read" activity
                         Toast.makeText(BookActivity.this, "Book Added", Toast.LENGTH_SHORT).show();
-
-
                         Intent intent = new Intent(BookActivity.this, WantToReadActivity.class);
                         startActivity(intent);
 
@@ -198,6 +196,7 @@ import java.util.ArrayList;
 
     }
     private void setData(Book book){
+        // Set book information on UI components
         txtBookName.setText(book.getName());
         txtAuthor.setText(book.getAuthor());
         txtPages.setText(String.valueOf(book.getPages()));
@@ -209,6 +208,7 @@ import java.util.ArrayList;
     }
 
     private void initViews(){
+        // Initialize UI components
         txtAuthor = findViewById(R.id.txtAuthorName);
         txtBookName = findViewById(R.id.txtBookName);
         txtPages = findViewById(R.id.txtPages);
@@ -224,6 +224,7 @@ import java.util.ArrayList;
 
      @Override
      public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+         // Handle the back button in the action bar
          switch (item.getItemId()){
              case android.R.id.home:
                  onBackPressed();

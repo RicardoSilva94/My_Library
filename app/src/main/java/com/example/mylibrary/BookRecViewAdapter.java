@@ -22,24 +22,30 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.ViewHolder> {
-    private static final String TAG = "BookRecViewAdapter";
+    private static final String TAG = "BookRecViewAdapter"; // for debugging purposes
 
     private ArrayList<Book> books = new ArrayList<>();
     private Context mContext;
     private String parentActivity;
     private OnItemClickListener mListener;
 
-    public static final String BOOK_ID_KEY = "bookId";
+    public static final String BOOK_ID_KEY = "bookId"; // A constant key for passing book IDs between activities
+
 
     public BookRecViewAdapter(Context mContext, String parentActivity) {
         this.mContext = mContext;
         this.parentActivity = parentActivity;
     }
 
+    // Define an interface for item click listeners
+    // interface é um contrato que especifica um conjunto de métodos que as classes que a implementam devem fornecer.
+    // interface OnItemClickListener declara um único método chamado onItemClick, que é usado para lidar com eventos de clique (click) em itens de uma lista ou RecyclerView.
+
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
+    // Set a click listener for items in the RecyclerView
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
@@ -47,6 +53,7 @@ public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflate the item layout for the RecyclerView
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_book, parent, false);
         return new ViewHolder(view);
     }
@@ -62,6 +69,8 @@ public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.
                 .asBitmap()
                 .load(books.get(position).getImageUrl())
                 .into(holder.imgBook);
+
+        // Set a click listener for the parent view (whole item)
 
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +94,8 @@ public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.
                 .load(books.get(position).getImageUrl())
                 .into(holder.imgBook);
 
+        // Set a click listener for the parent view to open the BookActivity
+
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +112,7 @@ public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.
         holder.txtDescription.setText(books.get(position).getShortDesc());
 
         if (books.get(position).isExpanded()) {
+            // Handle the expanded view and delete button based on the parentActivity
             TransitionManager.beginDelayedTransition(holder.parent);
             holder.expandedRelLayout.setVisibility(View.VISIBLE);
             holder.downArrow.setVisibility(View.GONE);
@@ -123,6 +135,8 @@ public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.
 
                         });
                         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            // Handle "No" button click
+
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -137,6 +151,8 @@ public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.
 
 
             } else if (parentActivity.equals("alreadyRead")) {
+                // Handle deletion for "Already Read" books
+
                 holder.btnDelete.setVisibility(View.VISIBLE);
                 holder.btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -261,6 +277,9 @@ public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.
         return books.size();
     }
 
+    // Set the book data for the RecyclerView
+    // O método setBooks é usado para atualizar a lista de livros exibida no RecyclerView. Ele recebe uma nova lista de livros e atribui-a ao campo books.
+    // Em seguida, chama o notifyDataSetChanged() para notificar o adaptador de que os dados foram alterados e que o RecyclerView precisa de ser atualizado para refletir as alterações.
     public void setBooks(ArrayList<Book> books) {
         this.books = books;
         notifyDataSetChanged();
@@ -291,6 +310,7 @@ public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.
 
             btnDelete = itemView.findViewById(R.id.btnDelete);
 
+            // Set click listeners for various elements
             parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -322,6 +342,7 @@ public class BookRecViewAdapter extends RecyclerView.Adapter<BookRecViewAdapter.
         }
     }
 
+    // O método getBookAt permite obter o objeto Book numa posição específica na lista de livros.
     public Book getBookAt(int position) {
         return books.get(position);
     }
