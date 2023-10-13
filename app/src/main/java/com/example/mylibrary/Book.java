@@ -1,7 +1,7 @@
 package com.example.mylibrary;
 
 public class Book {
-    private int id;
+    private int id = -1;
     private String name;
     private String author;
     private int pages;

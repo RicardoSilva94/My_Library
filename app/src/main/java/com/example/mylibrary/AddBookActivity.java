@@ -12,12 +12,29 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.example.mylibrary.BookRecViewAdapter;
 
+import java.util.ArrayList;
+
 public class AddBookActivity extends AppCompatActivity {
+
+
+  private ArrayList<Book> tempBookList = new ArrayList<>(); // Lista temporária de livros
 
     private EditText edtTitle, edtAuthor, edtPages, edtDescription, edtLongDescription, edtImageUrl;
     private Button btnSaveBook;
 
     private BookRecViewAdapter adapter;
+
+    private void persistTempBooks() {
+        if (!tempBookList.isEmpty()) {
+            for (Book book : tempBookList) {
+                // Adiciona os livros temporários à lista principal de livros (todos os livros)
+                Utils.getInstance(AddBookActivity.this).addToAllBooks(book);
+            }
+
+            // Limpa a lista temporária depois de salvar os livros
+            tempBookList.clear();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +99,7 @@ public class AddBookActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+       persistTempBooks();
         //Utils.writeToStorage();
     }
 

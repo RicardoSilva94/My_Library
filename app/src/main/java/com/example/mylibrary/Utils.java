@@ -17,11 +17,15 @@ public class Utils {
     private int generateUniqueId() {
         ArrayList<Book> allBooks = getAllBooks();
         if (allBooks != null) {
-            // Gere um ID único com base no tamanho atual da lista de livros
-            // O tamanho atual da lista representa o último ID atribuído
-            return allBooks.size() + 1;
+            int maxId = 0;
+            for (Book book : allBooks) {
+                if (book.getId() > maxId) {
+                    maxId = book.getId();
+                }
+            }
+            return maxId + 1; // Incrementa o maior ID em 1 para obter um novo ID único
         } else {
-            // Se a lista não existir (por exemplo, na primeira execução), começa com o ID 1
+            // Se a lista não existir (por exemplo, na primeira execução), comece com o ID 1
             return 1;
         }
     }
@@ -350,8 +354,8 @@ public class Utils {
         ArrayList<Book> allBooks = getAllBooks();
         if (allBooks != null) {
             // Gere um novo ID para o livro e atribui-o ao livro
-            int newId = generateBookId(); // Usa o método generateBookId para obter um ID único
-            newBook.setId(newId); // Define o ID do novo livro
+            int newId = generateUniqueId(); // Usa o método generateUniqueId atualizado para obter um ID único
+            newBook.setId(newId); // Defina o ID do novo livro
 
             // Adiciona o novo livro à lista
             allBooks.add(newBook);
